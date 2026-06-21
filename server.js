@@ -47,5 +47,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`Joni Art School: http://${host}:${port}/`);
+  console.log(`Drawing School: http://${host}:${port}/`);
 });

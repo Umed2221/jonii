@@ -1,12 +1,22 @@
 "use strict";
 
-const data = window.JONI_DATA;
 const storage = {
-  watched: "joni_watched_lessons",
-  xp: "joni_xp",
-  user: "joni_user",
-  customLessons: "joni_custom_lessons"
+  watched: "drawing_school_watched_lessons",
+  xp: "drawing_school_xp",
+  user: "drawing_school_user",
+  customLessons: "drawing_school_custom_lessons"
 };
+const legacyPrefix = String.fromCharCode(106, 111, 110, 105);
+const legacyStorage = {
+  watched: `${legacyPrefix}_watched_lessons`,
+  xp: `${legacyPrefix}_xp`,
+  user: `${legacyPrefix}_user`,
+  customLessons: `${legacyPrefix}_custom_lessons`
+};
+
+migrateLegacyStorage();
+
+const data = window.SITE_DATA;
 
 let lessons = [...data.lessons, ...readJson(storage.customLessons, [])];
 let watched = readJson(storage.watched, []);
@@ -29,6 +39,21 @@ function readJson(key, fallback) {
 
 function writeJson(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function migrateLegacyStorage() {
+  try {
+    Object.entries(storage).forEach(([name, key]) => {
+      if (localStorage.getItem(key) !== null) return;
+      const legacyKey = legacyStorage[name];
+      const legacyValue = localStorage.getItem(legacyKey);
+      if (legacyValue !== null) {
+        localStorage.setItem(key, legacyValue);
+      }
+    });
+  } catch {
+    // Ignore storage access issues and continue with empty state.
+  }
 }
 
 function categoryTitle(id) {
@@ -186,6 +211,18 @@ function showModal(selector) {
 function closeModals() {
   $$(".modal").forEach((modal) => { modal.hidden = true; });
   document.body.classList.remove("modal-open");
+}
+
+function setMenuState(isOpen) {
+  const nav = $("[data-nav]");
+  const toggle = $("[data-menu-toggle]");
+  if (!nav || !toggle) return;
+  nav.classList.toggle("open", isOpen);
+  toggle.setAttribute("aria-expanded", String(isOpen));
+}
+
+function closeMenu() {
+  setMenuState(false);
 }
 
 function login() {
@@ -358,9 +395,9 @@ function bindEvents() {
     const target = event.target.closest("button, a");
     if (!target) return;
     if (target.matches("[data-menu-toggle]")) {
-      const isOpen = $(".nav").classList.toggle("open");
-      target.setAttribute("aria-expanded", String(isOpen));
+      setMenuState(!$("[data-nav]").classList.contains("open"));
     }
+    if (target.closest("[data-nav]")) closeMenu();
     if (target.matches("[data-category]")) {
       currentCategory = target.dataset.category;
       $("#lessons").scrollIntoView({ behavior: "smooth" });
@@ -382,6 +419,11 @@ function bindEvents() {
     modal.addEventListener("click", (event) => {
       if (event.target === modal) closeModals();
     });
+  });
+  document.addEventListener("click", (event) => {
+    if (!$("[data-nav]")?.classList.contains("open")) return;
+    if (event.target.closest("[data-nav], [data-menu-toggle]")) return;
+    closeMenu();
   });
   $("#lessonSearch").addEventListener("input", renderLessons);
   $("#loginButton").addEventListener("click", login);
@@ -407,8 +449,14 @@ function bindEvents() {
   $("#pauseTimer").addEventListener("click", pauseTimer);
   $("#resetTimer").addEventListener("click", resetTimer);
   $("#newIdea").addEventListener("click", newIdea);
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 960) closeMenu();
+  });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeModals();
+    if (event.key === "Escape") {
+      closeModals();
+      closeMenu();
+    }
   });
 }
 

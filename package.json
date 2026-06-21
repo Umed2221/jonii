@@ -1,8 +1,8 @@
 {
-  "name": "joni-art-school",
+  "name": "drawing-school-site",
   "version": "1.0.0",
   "private": true,
-  "description": "Static Joni Art School website. No install step is required.",
+  "description": "Static online drawing school website. No install step is required.",
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",

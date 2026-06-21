@@ -1,4 +1,4 @@
-window.JONI_DATA = {
+window.SITE_DATA = {
   categories: [
     { id: "nature", title: "Природа", text: "Пейзажи, горы, вода, небо и свет.", image: "assets/images/web/nature.jpg" },
     { id: "anime", title: "Аниме", text: "Персонажи, эмоции, волосы и стилизация.", image: "assets/images/web/anime.jpg" },
