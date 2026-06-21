@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Онлайн школа рисования: видеоуроки, практика, прогресс, статьи и инструменты художника.">
+  <title>Joni Art School - онлайн школа рисования</title>
+  <link rel="icon" href="assets/images/placeholders/video.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Joni Art School">
+      <span class="brand-mark">J</span>
+      <span>Joni Art School</span>
+    </a>
+    <button class="icon-button menu-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" data-menu-toggle>
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" data-nav>
+      <a href="#catalog">Каталог</a>
+      <a href="#lessons">Уроки</a>
+      <a href="#tools">Инструменты</a>
+      <a href="#articles">Статьи</a>
+      <a href="#contacts">Контакты</a>
+      <button class="button small" type="button" data-open-auth>Войти</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-media" aria-hidden="true">
+        <img src="assets/images/web/art-supplies.jpg" alt="">
+      </div>
+      <div class="container hero-content">
+        <p class="eyebrow">Онлайн обучение рисованию</p>
+        <h1>Joni Art School</h1>
+        <p class="lead">Практические уроки, личный прогресс, быстрые упражнения и понятная система обучения для начинающих художников.</p>
+        <div class="hero-actions">
+          <a class="button" href="#lessons">Смотреть уроки</a>
+          <a class="button ghost" href="#tools">Открыть инструменты</a>
+        </div>
+        <dl class="hero-stats">
+          <div><dt id="heroLessonsCount">0</dt><dd>уроков</dd></div>
+          <div><dt>5</dt><dd>тем</dd></div>
+          <div><dt id="heroProgressValue">0%</dt><dd>прогресс</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section id="catalog" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Каталог</p>
+          <h2>Выберите направление</h2>
+          <p>Каждая тема открывает подборку уроков с разным уровнем сложности.</p>
+        </div>
+        <div class="category-grid" id="categoryGrid"></div>
+      </div>
+    </section>
+
+    <section id="lessons" class="section alt">
+      <div class="container">
+        <div class="section-head row">
+          <div>
+            <p class="eyebrow">Видеоуроки</p>
+            <h2 id="lessonsTitle">Все уроки</h2>
+            <p id="lessonsSubtitle">Фильтруйте уроки по теме, уровню и названию.</p>
+          </div>
+          <div class="search-box">
+            <label for="lessonSearch">Поиск</label>
+            <input id="lessonSearch" type="search" placeholder="Например: портрет">
+          </div>
+        </div>
+        <div class="filters" id="filters"></div>
+        <div class="lessons-grid" id="lessonsGrid"></div>
+      </div>
+    </section>
+
+    <section id="tools" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Практика</p>
+          <h2>Инструменты художника</h2>
+          <p>Мини-холст, таймер и генератор идей работают прямо в браузере.</p>
+        </div>
+        <div class="tools-grid">
+          <article class="tool-panel">
+            <div class="panel-head">
+              <h3>Онлайн-холст</h3>
+              <button class="button small ghost" type="button" id="clearCanvas">Очистить</button>
+            </div>
+            <canvas id="drawCanvas" width="900" height="560" aria-label="Холст для рисования"></canvas>
+            <div class="canvas-controls">
+              <input type="color" id="brushColor" value="#0f172a" aria-label="Цвет кисти">
+              <label>Размер <input type="range" id="brushSize" min="1" max="36" value="6"></label>
+            </div>
+          </article>
+
+          <article class="tool-panel">
+            <div class="panel-head">
+              <h3>Таймер практики</h3>
+              <button class="button small ghost" type="button" id="resetTimer">Сброс</button>
+            </div>
+            <div class="timer" id="timerDisplay">25:00</div>
+            <div class="button-row">
+              <button class="button" type="button" id="startTimer">Старт</button>
+              <button class="button ghost" type="button" id="pauseTimer">Пауза</button>
+            </div>
+            <p class="muted">25 минут рисования без отвлечений помогают закрепить навык и не перегореть.</p>
+          </article>
+
+          <article class="tool-panel idea-panel">
+            <div class="panel-head">
+              <h3>Идея для рисунка</h3>
+              <button class="button small ghost" type="button" id="newIdea">Новая</button>
+            </div>
+            <img id="ideaImage" src="assets/images/web/anime.jpg" alt="Идея для рисунка">
+            <p class="idea-text" id="ideaText">Персонаж в уютной мастерской</p>
+          </article>
+        </div>
+
+        <div class="progress-panel">
+          <div>
+            <p class="eyebrow">Ваш прогресс</p>
+            <h3><span id="watchedCount">0</span> из <span id="totalLessons">0</span> уроков пройдено</h3>
+          </div>
+          <div class="progress-bar" aria-label="Прогресс обучения"><span id="progressFill"></span></div>
+          <div class="progress-meta">
+            <span id="levelText">Новичок</span>
+            <span><b id="xpText">0</b> XP</span>
+          </div>
+          <div class="achievements" id="achievements"></div>
+          <button class="button ghost" type="button" id="resetProgress">Сбросить прогресс</button>
+        </div>
+
+        <div class="admin-panel" id="adminPanel" hidden>
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Админ-панель</p>
+              <h3>Управление уроками</h3>
+            </div>
+            <button class="button small ghost" type="button" id="logoutButton">Выйти</button>
+          </div>
+          <form class="admin-form" id="lessonForm">
+            <input id="adminTitle" required placeholder="Название урока">
+            <select id="adminCategory">
+              <option value="nature">Природа</option>
+              <option value="anime">Аниме</option>
+              <option value="people">Люди</option>
+              <option value="animals">Животные</option>
+              <option value="cartoon">Мультфильмы</option>
+            </select>
+            <select id="adminLevel">
+              <option>Начинающий</option>
+              <option>Средний</option>
+              <option>Продвинутый</option>
+            </select>
+            <input id="adminDuration" required type="number" min="5" max="120" value="20">
+            <button class="button" type="submit">Добавить</button>
+          </form>
+          <div class="button-row">
+            <button class="button ghost" type="button" id="exportData">Скопировать JSON</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Название</th><th>Тема</th><th>Уровень</th><th>Мин.</th><th></th></tr></thead>
+              <tbody id="adminRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="articles" class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Статьи</p>
+          <h2>Полезная база</h2>
+          <p>Короткие материалы, которые помогают быстрее понимать форму, цвет и практику.</p>
+        </div>
+        <div class="articles-grid" id="articlesGrid"></div>
+      </div>
+    </section>
+
+    <section id="contacts" class="section contacts">
+      <div class="container contacts-grid">
+        <div>
+          <p class="eyebrow">Контакты</p>
+          <h2>Начните обучение сегодня</h2>
+          <p>Сайт работает как статический проект: без обязательного сервера, базы данных и установки зависимостей.</p>
+        </div>
+        <address>
+          <a href="mailto:info@drawing-school.ru">info@drawing-school.ru</a>
+          <a href="tel:+78001234567">8 800 123-45-67</a>
+        </address>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Joni Art School</span>
+    <span>Прогресс сохраняется в браузере.</span>
+  </footer>
+
+  <div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle" hidden>
+    <div class="modal-card small-card">
+      <button class="close-button" type="button" data-close-modal aria-label="Закрыть">x</button>
+      <h2 id="authTitle">Вход в аккаунт</h2>
+      <p class="muted">Для админ-панели используйте admin@drawing.com / admin123</p>
+      <input id="authEmail" type="email" placeholder="Email">
+      <input id="authPassword" type="password" placeholder="Пароль">
+      <div class="button-row">
+        <button class="button" type="button" id="loginButton">Войти</button>
+        <button class="button ghost" type="button" id="registerButton">Регистрация</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="lessonModal" role="dialog" aria-modal="true" aria-labelledby="modalLessonTitle" hidden>
+    <div class="modal-card">
+      <button class="close-button" type="button" data-close-modal aria-label="Закрыть">x</button>
+      <div id="lessonModalBody"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="articleModal" role="dialog" aria-modal="true" aria-labelledby="articleTitle" hidden>
+    <div class="modal-card">
+      <button class="close-button" type="button" data-close-modal aria-label="Закрыть">x</button>
+      <div id="articleModalBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+  <script src="data/lessons.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "joni-art-school",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static Joni Art School website. No install step is required.",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node -e \"console.log('Static site: no build step required')\"",
+    "check": "node --check js/app.js && node --check data/lessons.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
